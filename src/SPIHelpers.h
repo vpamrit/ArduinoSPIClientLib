@@ -2,6 +2,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include "Config.h"
 
 #ifndef SPI_HELPERS_H
 #define SPI_HELPERS_H
@@ -36,13 +37,6 @@
 #define PACKET_COMPLETE 0x08
 #define UNAVAILABLE 0x10
 #define NONE 0x20
-
-
-// mini config
-struct SPIConfig
-{
-    static const bool isMaster = true;
-};
 
 /*** class ***/
 // class SPIDeSerializer
