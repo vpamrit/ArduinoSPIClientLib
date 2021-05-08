@@ -249,6 +249,7 @@ uint8_t SPIMaster::operate()
     return packetRes;
 };
 
+#if !defined(ESP8266)
 uint8_t SPISlave::operate()
 {
     static SPIPacketHeaderUnion headerBuf;
@@ -288,3 +289,4 @@ uint8_t SPISlave::operate()
     SPDR = packetRes;
     return packetRes;
 }
+#endif // (defined ESP8266)
