@@ -12,6 +12,11 @@ struct ReadTransmissionState
     uint16_t theyExpectToReceiveFromUs;
 };
 
+struct Metadata {
+    int16_t checksum;
+    int16_t size;
+};
+
 class MessageToBeSent
 {
 
@@ -41,7 +46,7 @@ class MessageToBeSent
     // internal state logic
     static volatile uint32_t dataByteNum;
     static volatile uint8_t headerByteNum;
-    static volatile State mode;
+    static volatile State msgMode;
 
 
 
@@ -109,7 +114,7 @@ private:
     static volatile int16_t finalDataChecksum;
 
 public:
-    static int16_t readMessage(char* buf); 
+    static Metadata readMessage(char* buf); 
 
     static ReadTransmissionState writePacket(SPIPacketHeader &header, char *dataBuffer);
 

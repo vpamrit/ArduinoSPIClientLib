@@ -20,6 +20,8 @@ struct ModeSwitch
     bool use(bool consume = true);
 };
 
+;
+
 class SPIClient
 {
 public:
@@ -32,10 +34,11 @@ public:
         START_UP
     };
 
-    virtual uint8_t operate() = 0;
+    virtual uint8_t
+    operate() = 0;
 
-    bool accept(uint8_t structType, char *buffer, uint16_t length, bool forcedTransmit);
-    int16_t readMessage(char *buffer);
+    bool accept(uint8_t steuctType, char *buffer, uint16_t length, bool forcedTransmit);
+    Metadata readMessage(char *buffer);
 
 protected:
     static MessageToBeReceived msgComingIn;
@@ -59,11 +62,13 @@ protected:
 
 class SPIMaster : public SPIClient
 {
+public:
     uint8_t operate() override;
 };
 
 class SPISlave : public SPIClient
 {
+public:
     uint8_t operate() override;
 };
 

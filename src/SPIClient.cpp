@@ -20,11 +20,9 @@ bool ModeSwitch::use(bool consume)
 
 MessageToBeReceived SPIClient::msgComingIn;
 MessageToBeSent SPIClient::msgGoingOut;
-
 volatile bool SPIClient::full = false;
-volatile SPIClient::CLIENT_STATE mode;
+volatile SPIClient::CLIENT_STATE SPIClient::mode = SPIClient::CLIENT_STATE::FLUSHING;
 ModeSwitch SPIClient::modeSwitch;
-
 const uint32_t SPIClient::FLUSH_BYTES = sizeof(SPIPacketHeader) + NUM_BYTES_PER_PACKET * 2;
 
 bool SPIClient::accept(uint8_t structType, char *buffer, uint16_t length, bool forcedTransmit)
@@ -32,7 +30,7 @@ bool SPIClient::accept(uint8_t structType, char *buffer, uint16_t length, bool f
     return msgGoingOut.acceptTransmission(structType, buffer, length, forcedTransmit);
 }
 
-int16_t SPIClient::readMessage(char *buffer)
+Metadata SPIClient::readMessage(char *buffer)
 {
     return msgComingIn.readMessage(buffer);
 }

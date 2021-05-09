@@ -19,7 +19,7 @@ volatile uint16_t MessageToBeSent::theirExpectedNextPacket = 0; // this is ours
 
 volatile uint32_t MessageToBeSent::dataByteNum = 0;
 volatile uint8_t MessageToBeSent::headerByteNum = 0;
-volatile MessageToBeSent::State MessageToBeSent::mode = State::HEADER;
+volatile MessageToBeSent::State MessageToBeSent::msgMode= State::HEADER;
 
 volatile uint16_t MessageToBeSent::writeRetries = 0;
 SPIPacketHeader MessageToBeSent::nextHeader;
@@ -52,7 +52,7 @@ bool MessageToBeSent::acceptTransmission(uint8_t structType, char *dataBuffer, u
 
 uint8_t MessageToBeSent::getCurrentByte()
 {
-    switch (mode)
+    switch (msgMode)
     {
     case State::HEADER:
         return currentHeader.buffer[headerByteNum];
@@ -68,20 +68,20 @@ uint8_t MessageToBeSent::getCurrentByte()
 
 void MessageToBeSent::updateState(ReadTransmissionState *state)
 {
-    switch (mode)
+    switch (msgMode)
     {
     case State::HEADER:
         ++headerByteNum;
         if (headerByteNum == NUM_BYTES_HEADER)
         {
-            mode = currentHeader.header.request == BLANK_PACKET ? State::BLANK_BODY : State::BODY;
+            msgMode = currentHeader.header.request == BLANK_PACKET ? State::BLANK_BODY : State::BODY;
         }
         break;
     case State::BLANK_BODY:
         ++dataByteNum;
         if (dataByteNum == NUM_BYTES_DATA)
         {
-            mode = State::HEADER;
+            msgMode = State::HEADER;
             headerByteNum = 0;
         }
         break;
@@ -90,7 +90,7 @@ void MessageToBeSent::updateState(ReadTransmissionState *state)
         // transition state
         if (dataByteNum == NUM_BYTES_DATA)
         {
-            mode = State::HEADER;
+            msgMode = State::HEADER;
             headerByteNum = 0; // CRITICAL
         }
 
@@ -194,7 +194,7 @@ void MessageToBeSent::initNextHeader(ReadTransmissionState *state)
 
 void MessageToBeSent::reset()
 {
-    mode = State::HEADER;
+    msgMode = State::HEADER;
     dataByteNum = 0;
     headerByteNum = 0;
     packetNum = 0;
@@ -238,15 +238,20 @@ volatile uint16_t MessageToBeReceived::id = 0;
 volatile int16_t MessageToBeReceived::finalDataChecksum = -1;
 volatile uint32_t MessageToBeReceived::readRetries = 0;
 
-int16_t MessageToBeReceived::readMessage(char *buf)
+Metadata MessageToBeReceived::readMessage(char *buf)
 {
+    Metadata mdata;
     if (!ready)
     {
-        return -1;
+        mdata.checksum = -1;
+        mdata.size = 0;
+        return mdata;
     }
 
     memcpy(buf, (char*)in, size);
-    return finalDataChecksum;
+    mdata.checksum = finalDataChecksum;
+    mdata.size = size;
+    return mdata;
 }
 
 ReadTransmissionState MessageToBeReceived::writePacket(SPIPacketHeader &header, char *dataBuffer)
