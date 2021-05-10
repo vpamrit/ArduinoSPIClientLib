@@ -168,7 +168,7 @@ void MessageToBeSent::initNextHeader(ReadTransmissionState *state)
     header.request = state->outgoingRequest;
     header.expectedNextPacketPos = state->weExpectToReceiveFromThem;
     header.packetPos = packetNum;
-    header.length = min(size - dataBytePos, (uint)NUM_BYTES_DATA);
+    header.length = min((uint16_t)(size - dataBytePos), (uint16_t)NUM_BYTES_DATA);
     header.headerChecksum = computeHeaderChecksum(header);
 
     // first packet, forced transmit case
