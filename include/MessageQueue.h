@@ -34,7 +34,6 @@ class MessageToBeSent
     // variables to expose internal state
     static volatile bool full;
     static volatile bool ready;
-    static volatile bool isMaster; //TODO: init this somehow???
     static volatile uint8_t packetNum;
 
     //outgoing piggyback
@@ -104,7 +103,6 @@ public:
 
 private:
     static volatile char in[500];       // two bytes
-    static volatile bool isMaster; //TODO: not sure if this is guaranteed order for static init
     static volatile uint8_t structType;
     static volatile uint32_t size;
     static volatile uint32_t weExpectToReceiveFromThem;

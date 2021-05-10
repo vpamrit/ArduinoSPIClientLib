@@ -8,7 +8,6 @@ volatile uint16_t MessageToBeSent::id = 0;
 // variables to expose internal state
 volatile bool MessageToBeSent::full = false;
 volatile bool MessageToBeSent::ready = false;
-volatile bool MessageToBeSent::isMaster = SPIConfig::isMaster; //TODO: init this somehow???
 volatile uint8_t MessageToBeSent::packetNum = 0;
 
 //outgoing piggyback
@@ -228,7 +227,6 @@ void MessageToBeSent::refresh()
 volatile char MessageToBeReceived::in[500] = {};
 volatile bool MessageToBeReceived::full = false;
 volatile bool MessageToBeReceived::ready = false;
-volatile bool MessageToBeReceived::isMaster = SPIConfig::isMaster; //TODO: not sure if this is guaranteed order for static init
 volatile uint8_t MessageToBeReceived::structType;
 volatile uint32_t MessageToBeReceived::size = 0;
 volatile uint32_t MessageToBeReceived::weExpectToReceiveFromThem = 0;
