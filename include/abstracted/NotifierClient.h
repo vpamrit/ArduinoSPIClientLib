@@ -32,7 +32,7 @@ public:
     uint8_t lastKnownTime;
 
 private:
-    static SPISlave client;
+    static SPIClient client;
     bool writeStructuredPacket(const Client_Packet &p);
     bool readStructuredPacket(const Client_Packet &p);
 };

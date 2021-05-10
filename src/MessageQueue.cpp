@@ -19,7 +19,7 @@ volatile uint16_t MessageToBeSent::theirExpectedNextPacket = 0; // this is ours
 
 volatile uint32_t MessageToBeSent::dataByteNum = 0;
 volatile uint8_t MessageToBeSent::headerByteNum = 0;
-volatile MessageToBeSent::State MessageToBeSent::msgMode= State::HEADER;
+volatile MessageToBeSent::State MessageToBeSent::msgMode = State::HEADER;
 
 volatile uint16_t MessageToBeSent::writeRetries = 0;
 SPIPacketHeader MessageToBeSent::nextHeader;

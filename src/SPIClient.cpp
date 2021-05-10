@@ -190,6 +190,10 @@ void SPIClient::performStandardUpdate(char c, SPIPacketHeaderUnion &header, char
     msgGoingOut.updateState(nullptr);
 }
 
+uint8_t SPIClient::operate() {
+    return 0x0;
+}
+
 uint8_t SPIMaster::operate()
 {
     static SPIPacketHeaderUnion headerBuf;

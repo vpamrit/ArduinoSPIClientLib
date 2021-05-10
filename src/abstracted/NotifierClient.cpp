@@ -4,9 +4,9 @@ static char send[] = "RANDOM TO SEND LOL IT BETTER TO BE AT LEAST TWO PACKETS RI
 static char out[500] = {};
 
 #if defined(ESP8266)
-    SPIMaster NotifierClient::client;
+    SPIClient NotifierClient::client = SPIMaster();
 #else
-    SPISlave NotifierClient::client;
+    SPIClient NotifierClient::client = SPISlave();
 #endif
 
 bool NotifierClient::sendFingerConfirmation(uint8_t fingerId, uint8_t confidence)
