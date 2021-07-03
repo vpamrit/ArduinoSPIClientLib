@@ -34,8 +34,7 @@ public:
         START_UP
     };
 
-    // dud function to appease C++ non-virtual requirements for statics
-    virtual uint8_t operate();
+    virtual uint8_t operate() = 0;
 
     bool accept(uint8_t steuctType, char *buffer, uint16_t length, bool forcedTransmit);
     Metadata readMessage(char *buffer);

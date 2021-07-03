@@ -7,17 +7,17 @@
 struct Client_Packet
 {
 
-//     Client_Packet(uint8_t curr_time, uint8_t opName, uint8_t fingerId, uint8_t confidence)
-//     {
-//         this->curr_time = curr_time;
-//         this->operationName = opName;
-//         this->fingerId = fingerId;
-//     }
+    //     Client_Packet(uint8_t curr_time, uint8_t opName, uint8_t fingerId, uint8_t confidence)
+    //     {
+    //         this->curr_time = curr_time;
+    //         this->operationName = opName;
+    //         this->fingerId = fingerId;
+    //     }
 
-//     uint8_t curr_time;
-//     uint8_t operationName;
-//     uint8_t fingerId;
-//     uint8_t confidence;
+    //     uint8_t curr_time;
+    //     uint8_t operationName;
+    //     uint8_t fingerId;
+    //     uint8_t confidence;
 };
 
 class NotifierClient
@@ -32,7 +32,12 @@ public:
     uint8_t lastKnownTime;
 
 private:
-    static SPIClient client;
+#if defined(ESP8266)
+    static SPIMaster client;
+#else
+    static SPISlave client;
+#endif
+
     bool writeStructuredPacket(const Client_Packet &p);
     bool readStructuredPacket(const Client_Packet &p);
 };

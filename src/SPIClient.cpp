@@ -190,20 +190,25 @@ void SPIClient::performStandardUpdate(char c, SPIPacketHeaderUnion &header, char
     msgGoingOut.updateState(nullptr);
 }
 
-uint8_t SPIClient::operate() {
-    return 0x0;
-}
+// uint8_t SPIClient::operate()
+// {
+//     Serial.println
+//     return 0x0;
+// }
 
 uint8_t SPIMaster::operate()
 {
     static SPIPacketHeaderUnion headerBuf;
     static char dataBuf[NUM_BYTES_PER_PACKET];
 
+    Serial.println("operate");
+
     // use mode to set variable states
     uint8_t packetRes;
     switch (mode)
     {
     case FLUSHING:
+        Serial.println("Flushing...");
         packetRes = performFlushGet();
         if (modeSwitch.use())
         {
@@ -212,9 +217,12 @@ uint8_t SPIMaster::operate()
         }
         break;
     case START_UP:
+        Serial.println("Start...");
+        // packetRes = performFlushGet();
         packetRes = performStartUpGet(false);
         break;
     case STANDARD: // normal read and write
+        Serial.println("Begin...");
         packetRes = performStandardGet();
         break;
     }

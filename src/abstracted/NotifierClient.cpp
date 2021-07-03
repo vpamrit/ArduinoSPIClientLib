@@ -4,9 +4,9 @@ static char send[] = "RANDOM TO SEND LOL IT BETTER TO BE AT LEAST TWO PACKETS RI
 static char out[500] = {};
 
 #if defined(ESP8266)
-    SPIClient NotifierClient::client = SPIMaster();
+SPIMaster NotifierClient::client = SPIMaster();
 #else
-    SPIClient NotifierClient::client = SPISlave();
+SPISlave NotifierClient::client = SPISlave();
 #endif
 
 bool NotifierClient::sendFingerConfirmation(uint8_t fingerId, uint8_t confidence)
@@ -36,6 +36,7 @@ bool NotifierClient::sendMessage(void)
 
 void NotifierClient::update()
 {
+    Serial.println("Update via notifier client");
     client.operate();
 }
 
