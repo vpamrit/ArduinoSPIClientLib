@@ -21,7 +21,6 @@ struct ModeSwitch
 };
 
 // core SPI client class that performs reliable TCP-like protocol
-// should work well
 class SPIClient
 {
 public:
